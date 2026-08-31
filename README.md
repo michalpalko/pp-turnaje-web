@@ -1,38 +1,26 @@
-# Staticky web pre futbalove turnaje
+# Statický web pre futbalové turnaje
 
-Toto je jednoduchsi prototyp bez databazy a bez admin systemu.
+Prezentačný web pre mládežnícke futbalové turnaje. Statická stránka (HTML/CSS/JS bez buildu), obsah sa načíta z Firebase.
 
-Web ma:
+Web má:
 
-- prezentacnu hlavnu stranku
-- historiu turnajov
-- jednu univerzalnu detail stranku pre turnaj
-- fotogaleriu k turnaju
-- data ulozene v `data/turnaje.json`
+- prezentačnú hlavnú stránku
+- históriu turnajov a nadchádzajúce turnaje
+- univerzálnu detail stránku pre turnaj s fotogalériou
+- sekciu partnerov a sponzorov
 
-## Spustenie
+## Dáta
 
+Turnaje a sponzori sa načítavajú z Firebase (Firestore + Storage). Podrobný postup nastavenia je v [`FIREBASE-SETUP.md`](FIREBASE-SETUP.md).
+
+## Spustenie lokálne
+
+```bash
 python3 -m http.server 4174
+```
 
-Potom otvorit:
+Potom otvoriť:
 
 ```text
 http://localhost:4174
 ```
-
-## Ako sa prida novy historicky turnaj bez databazy
-
-
-## Plagaty nadchadzajucich turnajov
-
-
-## Dolezite
-
-## Firebase (Firestore + Storage)
-
-Projekt je pripraveny aj na nacitavanie turnajov z Firebase Firestore
-(s fotkami v Firebase Storage) namiesto lokalneho `data/turnaje.json`.
-Kym nie je Firebase zapnuty (`firebase-config.js` → `FIREBASE_ENABLED`),
-web funguje presne ako doteraz z lokalneho suboru. Cely postup nastavenia
-Firebase projektu, datovy model turnaja a pravidla pre Historia/Nadchadzajuce
-su v [`FIREBASE-SETUP.md`](FIREBASE-SETUP.md).
