@@ -490,7 +490,7 @@ function card(tournament) {
         <span class="pill blue">${formatDateTime(tournament)}</span>
       </div>
       <h3>${tournament.title}</h3>
-      <p>${linkify(tournament.description || tournament.summary)}</p>
+      <p>${escapeHtml(tournament.description || tournament.summary || "")}</p>
       <div class="meta">
         <span class="pill">${tournament.location}</span>
         <span class="pill">${photos.length} ${photoCountLabel(photos.length)}</span>
@@ -688,7 +688,7 @@ function formatDate(date) {
 
 function formatDateTime(tournament) {
   const date = formatDate(tournament.date);
-  return tournament.time ? `${date} ${escapeHtml(tournament.time)}` : date;
+  return tournament.time ? `${date}, ${escapeHtml(tournament.time)}` : date;
 }
 
 function toIsoDate(date) {

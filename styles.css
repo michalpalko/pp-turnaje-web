@@ -397,6 +397,16 @@ h2 {
   white-space: pre-line;
 }
 
+.detail-copy a {
+  color: #1a5fd0;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+.detail-copy a:hover {
+  color: #0b44a8;
+}
+
 .values {
   display: grid;
   gap: 12px;
