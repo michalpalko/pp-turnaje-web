@@ -303,10 +303,26 @@ function renderTournament(id) {
             <dt>Dátum</dt>
             <dd>${formatDate(tournament.date)}</dd>
           </div>
+          ${
+            tournament.time
+              ? `<div>
+            <dt>Čas začiatku</dt>
+            <dd>${escapeHtml(tournament.time)}</dd>
+          </div>`
+              : ""
+          }
           <div>
             <dt>Kategória</dt>
             <dd>${tournament.category}</dd>
           </div>
+          ${
+            tournament.format
+              ? `<div>
+            <dt>Formát</dt>
+            <dd>${escapeHtml(tournament.format)}</dd>
+          </div>`
+              : ""
+          }
           <div>
             <dt>Počet tímov</dt>
             <dd>${tournament.teamsCount}</dd>
@@ -330,13 +346,31 @@ function renderTournament(id) {
 function tournamentCopy(tournament) {
   if (tournament.description && tournament.summary) {
     return `
-      <p class="detail-copy">${tournament.description}</p>
+      <p class="detail-copy">${linkify(tournament.description)}</p>
       <p class="eyebrow detail-summary-label">Sumár</p>
-      <p class="detail-copy">${tournament.summary}</p>
+      <p class="detail-copy">${linkify(tournament.summary)}</p>
     `;
   }
 
-  return `<p class="detail-copy">${tournament.description || tournament.summary || "Popis turnaja bude doplnený."}</p>`;
+  return `<p class="detail-copy">${linkify(tournament.description || tournament.summary) || "Popis turnaja bude doplnený."}</p>`;
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function linkify(text) {
+  if (!text) return "";
+  const urlPattern = /(https?:\/\/[^\s<]+[^\s<.,;:!?'")\]])/g;
+  return escapeHtml(text).replace(
+    urlPattern,
+    (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+  );
 }
 
 function linkPanel(tournament) {
@@ -452,10 +486,11 @@ function card(tournament) {
     <div class="card-body">
       <div class="meta">
         <span class="pill">${tournament.category}</span>
-        <span class="pill blue">${formatDate(tournament.date)}</span>
+        ${tournament.format ? `<span class="pill">${escapeHtml(tournament.format)}</span>` : ""}
+        <span class="pill blue">${formatDateTime(tournament)}</span>
       </div>
       <h3>${tournament.title}</h3>
-      <p>${tournament.description || tournament.summary || ""}</p>
+      <p>${linkify(tournament.description || tournament.summary)}</p>
       <div class="meta">
         <span class="pill">${tournament.location}</span>
         <span class="pill">${photos.length} ${photoCountLabel(photos.length)}</span>
@@ -649,6 +684,11 @@ function formatDate(date) {
     month: "long",
     year: "numeric"
   }).format(new Date(`${date}T12:00:00`));
+}
+
+function formatDateTime(tournament) {
+  const date = formatDate(tournament.date);
+  return tournament.time ? `${date} ${escapeHtml(tournament.time)}` : date;
 }
 
 function toIsoDate(date) {

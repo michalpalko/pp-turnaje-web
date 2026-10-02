@@ -6,6 +6,8 @@
   "date": "YYYY-MM-DD",
   "location": "",
   "category": "",
+  "format": "",
+  "time": "",
   "teamsCount": 0,
   "winner": "",
   "facebookUrl": "",
